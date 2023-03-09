@@ -1,0 +1,36 @@
+{
+  "name": "chili-publisher-demo-multi-document-pages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild --outdir=dist --platform=browser --bundle ./src/index.tsx",
+    "watch": "esbuild --outdir=dist --platform=browser --bundle --watch ./src/index.tsx",
+    "serve": "esbuild --outdir=dist --platform=browser --bundle --servedir=./ --watch ./src/index.tsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seancrowe/chili-publisher-demo-multi-document-pages.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seancrowe/chili-publisher-demo-multi-document-pages/issues"
+  },
+  "homepage": "https://github.com/seancrowe/chili-publisher-demo-multi-document-pages#readme",
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
+    "esbuild": "^0.17.11",
+    "eslint": "^8.35.0",
+    "eslint-plugin-react": "^7.32.2",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
