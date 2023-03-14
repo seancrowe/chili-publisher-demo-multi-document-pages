@@ -3,14 +3,11 @@ import { PageSelector } from "./PageSelector";
 import React from "react";
 import { EditorContainer } from "./EditorContainer";
 import { getDocumentsToLoad } from "./getDocumentsToLoad";
+import App from "./App";
 
 const root = createRoot(document.getElementsByTagName("div")[0]);
 
-root.render(
-<div>
-  <PageSelector documents={getDocumentsToLoad()}/>
-  <EditorContainer src="https://esbuild.github.io/api/#serve" />
-</div>)
+root.render(<App></App>)
 
 /*
       store:
