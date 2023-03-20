@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import {PublisherInterface} from "@chili-publish/publisher-interface"
+import { PublisherInterface } from "@chili-publish/publisher-interface"
 
-export function EditorContainer({src, setPublisherInterface}) {
+export function EditorContainer({ src, setPublisherInterface }: { src: any, setPublisherInterface: any }) {
 
 
   useEffect(() => {
@@ -21,5 +21,5 @@ export function EditorContainer({src, setPublisherInterface}) {
     createInterface();
   })
 
-  return <iframe id="editor1" style={{width:"100%", height: "95vh"}} src={src}></iframe>
+  return <iframe id="editor1" style={{ width: "100%", height: "95vh" }} src={src}></iframe>
 }

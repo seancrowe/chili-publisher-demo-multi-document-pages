@@ -1,16 +1,10 @@
 import React from "react";
-import { saveDocument } from "./mockServerSideStuff";
 
-export function SaveButton({ apikey, publisherInterface }) {
-    
+export function SaveButton({ apikey, publisherHandler }: { apikey: string, publisherHandler: any }) {
+
     const save = async () => {
-        //Check if doc is dirty
-        if (await publisherInterface.getObject('document.isDirty') == true) {
-            console.log("saving...");
-            const docXML = await publisherInterface?.executeFunction("document", "GetTempXML");
-            const docID = await publisherInterface?.getObject("document.id");
-            await saveDocument(apikey, docXML, docID);
-        }
+        //notably doesn't do anything if you haven't touched the document, arguably a pointless button
+        await publisherHandler.ifDirtySave();
     }
 
     return <div>

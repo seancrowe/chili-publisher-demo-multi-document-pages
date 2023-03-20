@@ -29,10 +29,10 @@ export default function App() {
         loadEditor();
     }, [apikey])
 
-    useEffect(()=> {
+    useEffect(() => {
 
         if (publisherInterface != null) {
-            setPublisherHandler(createPublisherHandler(publisherInterface, (a:string, b:string) => saveDocument(apikey, a, b)));
+            setPublisherHandler(createPublisherHandler(publisherInterface, (a: string, b: string) => saveDocument(apikey, a, b)));
         }
     }, [publisherInterface])
 
@@ -44,9 +44,11 @@ export default function App() {
     else {
         return <div style={{ display: "flex" }}>
             <PageSelector apikey={apikey} publisherHandler={publisherHandler} documents={getDocumentsToLoad()} setPageNum={setPageNum} />
-            <EditorContainer setPublisherInterface={setPublisherInterface} src={editorUrl} />
-            <Bottom pageNum={pageNum} setPageNum={setPageNum} publisherInterface={publisherInterface} maxPages={maxPages} apikey={apikey} />
-            <span>{pageNum}</span>
+            <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "95vh" }}>
+                <EditorContainer setPublisherInterface={setPublisherInterface} src={editorUrl} />
+                <Bottom pageNum={pageNum} setPageNum={setPageNum} publisherHandler={publisherHandler} maxPages={maxPages} apikey={apikey} />
+                <span>{pageNum}</span>
+            </div>
         </div>
     }
 }

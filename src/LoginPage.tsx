@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 
-export const LoginPage = ({updateAPIkey}:{updateAPIkey:any}) => {
+export const LoginPage = ({ updateAPIkey }: { updateAPIkey: any }) => {
 
     const [inputText, changeInputText] = useState("")
 
-    const onChangeHanlder = (event:React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeHanlder = (event: React.ChangeEvent<HTMLInputElement>) => {
         changeInputText(event.target.value)
     }
 
@@ -14,7 +14,7 @@ export const LoginPage = ({updateAPIkey}:{updateAPIkey:any}) => {
 
     return <div>
         Please Insert API key:
-        <input style={{marginLeft:"20px"}} onChange={onChangeHanlder} type={"text"}></input>
-        <button style={{marginLeft:"20px"}} onClick={onClickHandler} >Add Key</button>
+        <input style={{ marginLeft: "20px" }} onChange={onChangeHanlder} type={"text"}></input>
+        <button style={{ marginLeft: "20px" }} onClick={onClickHandler} >Add Key</button>
     </div>
 }

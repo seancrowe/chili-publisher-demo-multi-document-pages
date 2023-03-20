@@ -1,8 +1,5 @@
-import {createRoot} from "react-dom/client";
-import { PageSelector } from "./PageSelector";
+import { createRoot } from "react-dom/client";
 import React from "react";
-import { EditorContainer } from "./EditorContainer";
-import { getDocumentsToLoad } from "./getDocumentsToLoad";
 import App from "./App";
 
 const root = createRoot(document.getElementsByTagName("div")[0]);

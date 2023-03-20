@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { DocumentObj } from "./types";
 import { getBaseUrl } from "./mockServerSideStuff";
-import { PublisherInterface } from "@chili-publish/publisher-interface";
-import { saveDocument } from "./mockServerSideStuff";
-import { ifDirtySave } from "./publisherHandler";
 
-export function Page({ document, apikey, setPageNum, publisherHandler }: { document: DocumentObj, apikey: string, setPageNum:any, publisherHandler:any }) {
+export function Page({ document, apikey, setPageNum, publisherHandler }: { document: DocumentObj, apikey: string, setPageNum: any, publisherHandler: any }) {
 
   const [downloadedPreview, setDownloadedPreview] = useState(false)
   const [imgUrl, setImgUrl] = useState("https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg")
