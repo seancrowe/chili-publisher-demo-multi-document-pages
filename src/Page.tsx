@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { DocumentObj } from "./types";
 import { getBaseUrl } from "./mockServerSideStuff";
 import { PublisherInterface } from "@chili-publish/publisher-interface";
+import { saveDocument } from "./mockServerSideStuff";
 
-export function Page({document, apikey, publisherInterface}:{document:DocumentObj, apikey:string, publisherInterface?:PublisherInterface}) {
+export function Page({ document, apikey, publisherInterface, setPageNum }: { document: DocumentObj, apikey: string, publisherInterface?: PublisherInterface }) {
 
   const [downloadedPreview, setDownloadedPreview] = useState(false)
   const [imgUrl, setImgUrl] = useState("https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg")
 
-  useEffect(()=> {
+  useEffect(() => {
     const asyncFunc = async () => {
       const imageResult = await fetch(`${await getBaseUrl()}/rest-api/v1.2/resources/Documents/download?&type=medium&page=1&async=false&id=${document.id}`, {
-        headers:{"api-key": apikey}
+        headers: { "api-key": apikey }
       });
 
       const localImgURL = URL.createObjectURL(await imageResult.blob());
+
+      //run checkdoc here?
 
       setImgUrl(localImgURL);
       setDownloadedPreview(true);
@@ -28,19 +31,35 @@ export function Page({document, apikey, publisherInterface}:{document:DocumentOb
   // Get Preview of document
   //const imgUrl = `https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg`
 
-  const updateCurrentEditor = () => {
-    console.log("hey!!!!!!!!");
+
+  const updateCurrentEditor = async () => {
+    const checkDoc = async () => {
+      const docId = await publisherInterface?.getObject('document.id');
+      const isDirty = await publisherInterface?.getObject('document.isDirty');
+      if (isDirty == true) {
+        const currentDocId = await publisherInterface?.getObject('document.id');
+        const docXML = await publisherInterface?.executeFunction("document", "GetTempXML")
+        console.log("saving document with id " + await publisherInterface?.getObject('document.id'));
+        await saveDocument(apikey, docXML, docId);
+      }
+    }
+
     if (publisherInterface == null) {
       return;
     }
-    publisherInterface.executeFunction("document", "OpenDocumentFromXml", document.id)
+    //Check if doc is "dirty"
+    await checkDoc();
+    //this *kiiiinda* works, could do with more tweaking though
+    setDownloadedPreview(false);
+    await publisherInterface.executeFunction("document", "OpenDocumentFromXml", document.id)
+    setPageNum(document.page);
   }
 
 
-  return <div style={{width:"200px", display:"flex", flexDirection:"column", alignItems:"center"}}>
-    <img style={{width:"100px", height:"100px"}} src={imgUrl} onClick={updateCurrentEditor}></img>
-    <br/>
-    <div style={{fontSize:"14pt", textAlign:"center"}} >Page Number: {document.page}</div>
-    <br/>
+  return <div style={{ width: "200px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <img style={{ width: "100px", height: "100px" }} src={imgUrl} onClick={updateCurrentEditor}></img>
+    <br />
+    <div style={{ fontSize: "14pt", textAlign: "center" }} >Page Number: {document.page}</div>
+    <br />
   </div>
 }

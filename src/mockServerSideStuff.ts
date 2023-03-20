@@ -10,4 +10,17 @@ export function getDocumentsToLoad():DocumentObj[] {
 
 export const getBaseUrl = async () => "https://ft-nostress.chili-publish.online/"
 
-export const getEditorUrl = async (apikey:string) => `https://ft-nostress.chili-publish.online/ft-nostress/editor_html.aspx?apiKey=${apikey}`
+export const getEditorUrl = async (apikey:string, defaultId:string) => `https://ft-nostress.chili-publish.online/ft-nostress/editor_html.aspx?doc=${defaultId}&apiKey=${apikey}`
+
+export const saveDocument = async (apikey:string, docXML:string, docId:string) => {
+  const data = {xml: docXML};
+  await fetch(`https://ft-nostress.chili-publish.online/rest-api/v1.2/resources/documents/items/${docId}/save`, {
+    method: "PUT",
+    headers: {
+      "api-key" : apikey,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+  console.log("saved");
+}
