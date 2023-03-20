@@ -19,7 +19,7 @@ export function Bottom({ pageNum, setPageNum, publisherInterface, maxPages, apik
     }
     else {
         return <div>
-            {/* <NavButton buttonType={"PREVIOUS"} pageNum={pageNum} setPageNum={setPageNum} publisherInterface={publisherInterface} apikey={apikey} setClicked={setClicked} clicked={clicked}/> */}
+            <NavButton buttonType={"PREVIOUS"} pageNum={pageNum} setPageNum={setPageNum} publisherInterface={publisherInterface} apikey={apikey} setClicked={setClicked} clicked={clicked}/>
             <NavButton buttonType={"NEXT"} pageNum={pageNum} setPageNum={setPageNum} publisherInterface={publisherInterface} apikey={apikey} setClicked={setClicked} clicked={clicked}/>
             <SaveButton apikey={apikey} publisherInterface={publisherInterface} />
         </div>

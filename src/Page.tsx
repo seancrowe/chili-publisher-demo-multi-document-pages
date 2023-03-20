@@ -3,8 +3,9 @@ import { DocumentObj } from "./types";
 import { getBaseUrl } from "./mockServerSideStuff";
 import { PublisherInterface } from "@chili-publish/publisher-interface";
 import { saveDocument } from "./mockServerSideStuff";
+import { ifDirtySave } from "./publisherHandler";
 
-export function Page({ document, apikey, publisherInterface, setPageNum }: { document: DocumentObj, apikey: string, publisherInterface?: PublisherInterface }) {
+export function Page({ document, apikey, setPageNum, publisherHandler }: { document: DocumentObj, apikey: string, setPageNum:any, publisherHandler:any }) {
 
   const [downloadedPreview, setDownloadedPreview] = useState(false)
   const [imgUrl, setImgUrl] = useState("https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg")
@@ -33,25 +34,11 @@ export function Page({ document, apikey, publisherInterface, setPageNum }: { doc
 
 
   const updateCurrentEditor = async () => {
-    const checkDoc = async () => {
-      const docId = await publisherInterface?.getObject('document.id');
-      const isDirty = await publisherInterface?.getObject('document.isDirty');
-      if (isDirty == true) {
-        const currentDocId = await publisherInterface?.getObject('document.id');
-        const docXML = await publisherInterface?.executeFunction("document", "GetTempXML")
-        console.log("saving document with id " + await publisherInterface?.getObject('document.id'));
-        await saveDocument(apikey, docXML, docId);
-      }
-    }
 
-    if (publisherInterface == null) {
-      return;
-    }
-    //Check if doc is "dirty"
-    await checkDoc();
-    //this *kiiiinda* works, could do with more tweaking though
+    await publisherHandler.ifDirtySave();
+    await publisherHandler.loadDocument(document.id);
+    // Could use GetPNGSnapshot to avoid server calls
     setDownloadedPreview(false);
-    await publisherInterface.executeFunction("document", "OpenDocumentFromXml", document.id)
     setPageNum(document.page);
   }
 
