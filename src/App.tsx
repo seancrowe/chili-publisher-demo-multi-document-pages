@@ -8,16 +8,22 @@ import { Bottom } from "./Bottom";
 import { NavButton } from "./NavButton";
 import { createPublisherHandler } from "./publisherHandler";
 
+/**
+ * 
+ * @description Returns the App component to be rendered, which is the top level of our application and contains most of the global state
+ */
 export default function App() {
-    //LOOK AT ME ----------------------------------------------------------------------------
-    const [apikey, updateAPIkey] = useState(""); //REMOVE BEFORE PUSHING CHANGES
-    //SERIOUSLY LOOK AT ME ------------------------------------------------------------------
+    
+    // Used to store the API key, which is needed for loading the Editor and image previews
+    const [apikey, updateAPIkey] = useState("");
+    // Called by Page and NavButton components, we should move the effects of saving and loading to this spot
     const [pageNum, setPageNum] = useState(1);
-    const maxPages = getDocumentsToLoad().length;
-
+    // editorUrl should only be set once when apiKey is set
     const [editorUrl, setEditorUrl] = useState("");
     const [publisherInterface, setPublisherInterface] = useState(null);
     const [publisherHandler, setPublisherHandler] = useState<any>(null);
+
+    const maxPages = getDocumentsToLoad().length;
 
     useEffect(() => {
         const loadEditor = async () => {
@@ -29,6 +35,7 @@ export default function App() {
         loadEditor();
     }, [apikey])
 
+    
     useEffect(() => {
 
         if (publisherInterface != null) {
