@@ -20,11 +20,15 @@ export default function App() {
     const [pageNum, setPageNum] = useState(1);
     // editorUrl should only be set once when apiKey is set
     const [editorUrl, setEditorUrl] = useState("");
+    // Called by EditorContainer, used by publisherHandler
     const [publisherInterface, setPublisherInterface] = useState(null);
+    // Used to store publisher interface functions, makes passing down functionality to child components easier
     const [publisherHandler, setPublisherHandler] = useState<any>(null);
 
+    // "Hardcoded" value to store the highest possible page count
     const maxPages = getDocumentsToLoad().length;
 
+    // Effect hook to ensure that the initial editor URL is only set after an API key is supplied
     useEffect(() => {
         const loadEditor = async () => {
             const editorUrl = await getEditorUrl(apikey, getDocumentsToLoad()[0].id);
@@ -36,6 +40,7 @@ export default function App() {
     }, [apikey])
 
 
+    // Separate effect hook to set the publisherHandler state value after the publisherInterface is set
     useEffect(() => {
 
         if (publisherInterface != null) {
@@ -44,10 +49,11 @@ export default function App() {
     }, [publisherInterface])
 
 
+    // Conditional rendering based on presence of apikey value, show LoginPage if apikey is empty...
     if (apikey.trim().length == 0) {
         return <LoginPage updateAPIkey={updateAPIkey} />
     }
-    //Clean up formatting of this later
+    // ...else return main page components
     else {
         return <div style={{ display: "flex" }}>
             <PageSelector apikey={apikey} publisherHandler={publisherHandler} documents={getDocumentsToLoad()} setPageNum={setPageNum} />

@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { NavButton } from "./NavButton";
 import { SaveButton } from "./SaveButton";
 
+/**
+ * 
+ * @description Returns Bottom component to be rendered, which is a child of the App component. Holds navigation and save buttons. Appropriately hides or shows previous/next NavButtons based on the current page number.
+ */
 export function Bottom({ pageNum, setPageNum, publisherHandler, maxPages, apikey }: { pageNum: number, setPageNum: any, publisherHandler: any, maxPages: number, apikey: string }) {
     const [clicked, setClicked] = useState(false);
 

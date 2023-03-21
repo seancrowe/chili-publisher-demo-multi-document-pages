@@ -2,20 +2,27 @@ import React, { useEffect, useState } from "react";
 import { DocumentObj } from "./types";
 import { getBaseUrl } from "./mockServerSideStuff";
 
+/**
+ * 
+ * @description Returns the Page component to be rendered, which is a child of the PageSelector component. Page's are rendered in the PageSelctor sidebar as generated png previews of the document associated with the Page.
+ */
 export function Page({ document, apikey, setPageNum, publisherHandler }: { document: DocumentObj, apikey: string, setPageNum: any, publisherHandler: any }) {
 
+  // Used only to trigger Effect hook to generate a new document preview
   const [downloadedPreview, setDownloadedPreview] = useState(false)
+  // Used to store and set document preview URL
   const [imgUrl, setImgUrl] = useState("https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg")
 
+  // Effect hook to call CHILI Download Assets API endpoint to generate a document preview
   useEffect(() => {
+    // asyncFunc exists within Effect hook because React doesn't allow async function values for effects
     const asyncFunc = async () => {
       const imageResult = await fetch(`${await getBaseUrl()}/rest-api/v1.2/resources/Documents/download?&type=medium&page=1&async=false&id=${document.id}`, {
         headers: { "api-key": apikey }
       });
 
+      // Create image URL from the response blob
       const localImgURL = URL.createObjectURL(await imageResult.blob());
-
-      //run checkdoc here?
 
       setImgUrl(localImgURL);
       setDownloadedPreview(true);
@@ -23,19 +30,17 @@ export function Page({ document, apikey, setPageNum, publisherHandler }: { docum
     asyncFunc();
   }, [downloadedPreview]);
 
-  //https://ft-nostress.chili-publish.online/rest-api/v1.2/resources/Documents/download?path=zSean%5CChange+frame+autogrow+max+size+based+on+font+size.xml&type=medium&page=1&async=true&taskPriority=5&id=76f6de5c-449a-41b3-b7dd-6ee0f067d345&name=Change+frame+autogrow+max+size+based+on+font+size&client_app=CHILI_Editor
-
-
-  // Get Preview of document
-  //const imgUrl = `https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg`
-
-
+  // Called on img tag's onClick event
   const updateCurrentEditor = async () => {
-
+    // publisherHandler function to save document if document is "dirty" (i.e. document has been modified)
     await publisherHandler.ifDirtySave();
+    // publihserHandler function to load document connected to this Page component
     await publisherHandler.loadDocument(document.id);
     // Could use GetPNGSnapshot to avoid server calls
+
+    // Change downloadedPreview state to trigger Effect hook again in order to update document preview
     setDownloadedPreview(false);
+    // Update pageNum value to reflect currently selected page
     setPageNum(document.page);
   }
 

@@ -1,9 +1,13 @@
 import React from "react";
 
+/**
+ * 
+ * @description Returns the SaveButton component to be rendered, which is a child of the Bottom component. Provides an option to save a document without changing the page.
+ */
 export function SaveButton({ apikey, publisherHandler }: { apikey: string, publisherHandler: any }) {
 
     const save = async () => {
-        //notably doesn't do anything if you haven't touched the document, arguably a pointless button
+        // Notably follows the same rules as all other save action, so button will do nothing if document hasn't been modified.
         await publisherHandler.ifDirtySave();
     }
 
