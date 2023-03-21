@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { PublisherInterface } from "@chili-publish/publisher-interface"
 
 export function EditorContainer({ src, setPublisherInterface }: { src: any, setPublisherInterface: any }) {
@@ -23,3 +23,5 @@ export function EditorContainer({ src, setPublisherInterface }: { src: any, setP
 
   return <iframe id="editor1" style={{ width: "100%", height: "95vh" }} src={src}></iframe>
 }
+
+export const MemoizedEditorContainer = memo(EditorContainer);

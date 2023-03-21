@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { EditorContainer } from "./EditorContainer";
+import { EditorContainer, MemoizedEditorContainer } from "./EditorContainer";
 import { getDocumentsToLoad, saveDocument } from "./mockServerSideStuff";
 import { LoginPage } from "./LoginPage";
 import { PageSelector } from "./PageSelector";
@@ -35,7 +35,7 @@ export default function App() {
         loadEditor();
     }, [apikey])
 
-    
+
     useEffect(() => {
 
         if (publisherInterface != null) {
@@ -52,7 +52,7 @@ export default function App() {
         return <div style={{ display: "flex" }}>
             <PageSelector apikey={apikey} publisherHandler={publisherHandler} documents={getDocumentsToLoad()} setPageNum={setPageNum} />
             <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "95vh" }}>
-                <EditorContainer setPublisherInterface={setPublisherInterface} src={editorUrl} />
+                <MemoizedEditorContainer setPublisherInterface={setPublisherInterface} src={editorUrl} />
                 <Bottom pageNum={pageNum} setPageNum={setPageNum} publisherHandler={publisherHandler} maxPages={maxPages} apikey={apikey} />
                 <span>{pageNum}</span>
             </div>
