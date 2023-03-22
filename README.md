@@ -1,5 +1,31 @@
 # This Project
-This is an example project of implementing GraFx Publisher so that each "page" is actually a document. It is meant to give you an idea on how to implement this, but is not a complete project.
+This example demonstrates how to implement GraFx Publisher with each "page" as a separate document to improve performance.
+
+This is not a complete project, and there are many improvements that could be made.
+
+## High Level Overview
+Instead of loading all pages within a single document, this implementation treats each document as a page and uses a UI to display them. A JavaScript function is called when a user selects a page or clicks preview/next, changing the loaded document in the Publisher editor:
+
+```javascript
+editorObject.ExecuteFunction("document","OpenDocumentFromXml", ...props)
+```
+
+Where props is made up the document ID or XML, the workspace ID or XML (optional), the view preference ID (optional)
+
+The signature for the this function would be
+```
+(document_id_or_xml:string, workspace_id_or_xml:string, view_preference_id:string) => void
+```
+
+When using the PublisherInterface:
+
+```javascript
+publisherInterface.editorObject.ExecuteFunction("document","OpenDocumentFromXml", ...props)
+
+// or
+
+publisherInterface.executeFunction("document","OpenDocumentFromXml", ...props)
+```
 
 ## Setup
 To setup the project you need to run this on a system with node - any version after 10 should be good. Then do the following:
@@ -11,19 +37,19 @@ To setup the project you need to run this on a system with node - any version af
 ## Overview
 The project source files can be found in `./src`. Below we will overview the project files and how they connect.
 
-index.tsx - is the main entry point, and basically just renders the component from App.tsx
-App.tsx - is the main parent component for the app
-EditorContainer.tsx - holds the editor iframe
-LoginPage.tsx - rendered in App.tsx if apikey value is empty, provides input field to enter an apikey
-PageSelector.tsx - renders the page preview sidebar, holds one Page component per document in getDocumentsToLoad()
-Page.tsx - renders individual pages seen in PageSelector, pages consist of a clickable img tag that points to the attached document preview, and the document's specified page number
-Bottom.tsx - renders navigation button bar, holds next/previous page NavButtons and a SaveButton
-NavButton.tsx - renders next/previous page navigation buttons, on button click the next or previous document is loaded in the editor iframe
-SaveButton.tsx - renders save button, saves the currently displayed document on click
-publisherHandler.tsx - holds publisherInterface functions that are used in document saving and document loading for ease of use in passing functionality throughout components
-mockServerSideStuff.ts - holds mock server side functions meant to emulate retrieving documents to load, generating editor URLs, and ResourceItemSave API calls
+- `index.tsx`: Main entry point, renders App.tsx.
+- `App.tsx`: Main parent component for the app.
+- `EditorContainer.tsx`: Holds the editor iframe.
+- `LoginPage.tsx`: Renders when apikey is empty; contains input field for API key.
+- `PageSelector.tsx`: Renders page preview sidebar, one Page component per document.
+- `Page.tsx`: Renders individual pages in PageSelector with a clickable image preview and page number.
+- `Bottom.tsx`: Renders navigation bar with NavButton components and a SaveButton.
+- `NavButton.tsx`: Renders next/previous page navigation buttons, loading the corresponding document.
+- `SaveButton.tsx`: Renders save button, saving the displayed document on click.
+- `publisherHandler.tsx`: Holds publisherInterface functions for document saving and loading.
+- `mockServerSideStuff.ts`: Holds mock server-side functions for retrieving documents, generating editor URLs, and API calls.
 
 ## Improvements
 There are many improvements that are needed or should be done:
 - Move the state from props to a store, to make things more simple
-- The effect of next/previous buttons and the effect of selecting a page should be moved into its own logic on setPageNum
+- Separate the logic for next/previous buttons and page selection into a dedicated function - lift the state
